@@ -1,19 +1,16 @@
 using Assets._Project.Develop.Runtime.UI.CommonViews;
-using System;
+using Assets._Project.Develop.Runtime.UI.Wallet;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.UI.Menu
 {
     public class MenuScreenView : MonoBehaviour
     {
-        public event Action GoldButtonClicked;
-        public event Action DiamondButtonClicked;
-        public event Action EnergyButtonClicked;
+        [SerializeField] private List<CurrencyButton> _buttons;
 
         [field: SerializeField] public IconTextListView WalletView { get; private set; }
 
-        public void GoldButtonClick() => GoldButtonClicked?.Invoke();
-        public void DiamondButtonClick() => DiamondButtonClicked?.Invoke();
-        public void EnergyButtonClick() => EnergyButtonClicked?.Invoke();
+        public IReadOnlyList<CurrencyButton> Buttons => _buttons;
     }
 }

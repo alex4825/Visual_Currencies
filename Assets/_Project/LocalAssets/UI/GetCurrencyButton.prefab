@@ -146,6 +146,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2450244591345699365}
   - component: {fileID: 952597494020195909}
+  - component: {fileID: 1084093819276763860}
   - component: {fileID: 506863109713012022}
   - component: {fileID: 6608006993018428420}
   m_Layer: 5
@@ -183,6 +184,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8838038055862530348}
   m_CullTransparentMesh: 1
+--- !u!114 &1084093819276763860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8838038055862530348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2673c139722b7cf46b03e5e6f671980c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Assets._Project.Develop.Runtime.UI.Wallet.CurrencyButton
+  _currency: 0
 --- !u!114 &506863109713012022
 MonoBehaviour:
   m_ObjectHideFlags: 0

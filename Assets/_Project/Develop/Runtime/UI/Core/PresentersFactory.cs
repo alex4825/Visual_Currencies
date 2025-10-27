@@ -5,6 +5,7 @@ using Assets._Project.Develop.Runtime.UI.Menu;
 using Assets._Project.Develop.Runtime.UI.Wallet;
 using Assets._Project.Develop.Runtime.Utilities.ConfigsManagement;
 using R3;
+using System.Collections.Generic;
 
 namespace Assets._Project.Develop.Runtime.UI.Core
 {
@@ -44,9 +45,9 @@ namespace Assets._Project.Develop.Runtime.UI.Core
             return new WalletPresenter(_walletService, this, _viewsFactory, view);
         }
 
-        public MenuButtonsPresenter CreateMenuButtonsPresenter(MenuScreenView view)
+        public MenuButtonsPresenter CreateMenuButtonsPresenter(IReadOnlyList<CurrencyButton> buttons)
         {
-            return new MenuButtonsPresenter(view, _walletService, _currencyRandomizer);
+            return new MenuButtonsPresenter(buttons, _walletService, _currencyRandomizer);
         }
     }
 }

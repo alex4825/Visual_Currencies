@@ -1,4 +1,3 @@
-using Assets._Project.Develop.Runtime.Meta.Features.Wallet;
 using Assets._Project.Develop.Runtime.UI.Core;
 using Assets._Project.Develop.Runtime.UI.Wallet;
 using System.Collections.Generic;
@@ -45,7 +44,7 @@ namespace Assets._Project.Develop.Runtime.UI.Menu
 
         private void CreateButtonsPresenter()
         {
-            MenuButtonsPresenter buttonsPresenter = _presentersFactory.CreateMenuButtonsPresenter(_screenView);
+            MenuButtonsPresenter buttonsPresenter = _presentersFactory.CreateMenuButtonsPresenter(_screenView.Buttons);
             _childPresenters.Add(buttonsPresenter);
         }
 

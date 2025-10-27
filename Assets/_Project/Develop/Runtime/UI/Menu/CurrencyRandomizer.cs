@@ -18,7 +18,7 @@ namespace Assets._Project.Develop.Runtime.UI.Menu
         public int RandomDiamond => GetFor(CurrencyTypes.Diamond);
         public int RandomEnergy => GetFor(CurrencyTypes.Energy);
 
-        private int GetFor(CurrencyTypes currency)
+        public int GetFor(CurrencyTypes currency)
         {
             int minValue = _currencyRangeConfig.GetRangeFor(currency).x;
             int maxValue = _currencyRangeConfig.GetRangeFor(currency).y;
