@@ -1,14 +1,9 @@
 using Assets._Project.Develop.Runtime.Configs;
 using Assets._Project.Develop.Runtime.Meta.Features.Wallet;
 using Assets._Project.Develop.Runtime.UI.CommonViews;
-using Assets._Project.Develop.Runtime.UI.Menu;
 using Assets._Project.Develop.Runtime.UI.Wallet;
-using Assets._Project.Develop.Runtime.Utilities.AssetsManagement;
 using Assets._Project.Develop.Runtime.Utilities.ConfigsManagement;
 using R3;
-using System;
-using UnityEngine;
-using VContainer;
 
 namespace Assets._Project.Develop.Runtime.UI.Core
 {

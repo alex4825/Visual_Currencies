@@ -23,5 +23,7 @@ public class MenuLifetimeScope : LifetimeScope
         builder.Register<PresentersFactory>(Lifetime.Singleton);
 
         builder.Register<ConfigsProviderService>(Lifetime.Singleton);
+
+        builder.Register<CurrencyRandomizer>(Lifetime.Singleton);
     }
 }
