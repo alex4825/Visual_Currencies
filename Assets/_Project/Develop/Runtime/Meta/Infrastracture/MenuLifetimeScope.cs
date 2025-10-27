@@ -16,6 +16,7 @@ public class MenuLifetimeScope : LifetimeScope
 
         builder.Register<WalletService>(Lifetime.Singleton);
 
+        builder.RegisterComponentInHierarchy<UIRoot>();
         builder.RegisterComponentInHierarchy<MenuScreenView>();
         builder.Register<MenuScreenPresenter>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
 
