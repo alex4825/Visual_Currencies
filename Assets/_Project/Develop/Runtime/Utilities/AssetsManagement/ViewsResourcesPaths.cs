@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using Assets._Project.Develop.Runtime.UI.Core;
+using System.Collections.Generic;
 
 namespace Assets._Project.Develop.Runtime.Utilities.AssetsManagement
 {
-    public class AssetsResourcesPaths
+    public class ViewsResourcesPaths
     {
         private static Dictionary<string, string> _viewIDToResourcesPath = new Dictionary<string, string>()
         {
-            {AssetsIDs.CurrencyView, "UI/CurrencyView" },
-            {AssetsIDs.CurrencyIconsConfig, "Configs/CurrencyIconsConfig" },
+            {ViewIDs.CurrencyView, "UI/CurrencyView" },
         };
 
         public static bool TryGetBy(string id, out string path)

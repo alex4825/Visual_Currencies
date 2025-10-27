@@ -9,7 +9,7 @@ namespace Assets._Project.Develop.Runtime.UI.Core
     {
         public TView Create<TView>(string viewID, Transform parent = null) where TView : MonoBehaviour, IView
         {
-            if (AssetsResourcesPaths.TryGetBy(viewID, out string resourcePath) == false)
+            if (ViewsResourcesPaths.TryGetBy(viewID, out string resourcePath) == false)
                 throw new ArgumentException($"You didn't set resource path for {typeof(TView)}, searched ID is {viewID}");
 
             GameObject prefab = Resources.Load<GameObject>(resourcePath);
@@ -24,7 +24,8 @@ namespace Assets._Project.Develop.Runtime.UI.Core
 
         public void Release<TView>(TView view) where TView : MonoBehaviour, IView
         {
-            Object.Destroy(view.gameObject);
+            if (view != null)
+                Object.Destroy(view.gameObject);
         }
     }
 }

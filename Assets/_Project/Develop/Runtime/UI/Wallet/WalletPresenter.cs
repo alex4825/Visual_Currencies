@@ -1,7 +1,6 @@
 ﻿using Assets._Project.Develop.Runtime.Meta.Features.Wallet;
 using Assets._Project.Develop.Runtime.UI.CommonViews;
 using Assets._Project.Develop.Runtime.UI.Core;
-using Assets._Project.Develop.Runtime.Utilities.AssetsManagement;
 using System.Collections.Generic;
 
 namespace Assets._Project.Develop.Runtime.UI.Wallet
@@ -27,7 +26,7 @@ namespace Assets._Project.Develop.Runtime.UI.Wallet
         {
             foreach (CurrencyTypes currencyType in _walletService.AvailableCurrencies)
             {
-                IconTextView currencyView = _viewsFactory.Create<IconTextView>(AssetsIDs.CurrencyView);
+                IconTextView currencyView = _viewsFactory.Create<IconTextView>(ViewIDs.CurrencyView);
 
                 _view.Add(currencyView);
 
