@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e9c24d2554b013468175254f1c0a43e, type: 3}
+  m_Name: CurrencyButtonsConfig
+  m_EditorClassIdentifier: Assembly-CSharp::Assets._Project.Develop.Runtime.Configs.CurrencyButtonsConfig
+  _values:
+    _serializedList:
+    - Key: 0
+      Value:
+        Name: Gold
+        Sprite: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
+        Color: {r: 1, g: 0.8709866, b: 0, a: 1}
+    - Key: 1
+      Value:
+        Name: Diamond
+        Sprite: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
+        Color: {r: 0, g: 0.7790189, b: 1, a: 1}
+    - Key: 2
+      Value:
+        Name: Energy
+        Sprite: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
+        Color: {r: 0.8867924, g: 0.1991099, b: 0.7420469, a: 1}

@@ -1,5 +1,7 @@
+using Assets._Project.Develop.Runtime.Meta.Features.Wallet;
 using Assets._Project.Develop.Runtime.UI.Core;
 using Assets._Project.Develop.Runtime.UI.Wallet;
+using System;
 using System.Collections.Generic;
 
 namespace Assets._Project.Develop.Runtime.UI.Menu
@@ -22,7 +24,7 @@ namespace Assets._Project.Develop.Runtime.UI.Menu
         public void Initialize()
         {
             CreateWallet();
-            CreateButtonsPresenter();
+            CreateButtons();
 
             foreach (IPresenter childPresenter in _childPresenters)
                 childPresenter.Initialize();
@@ -42,10 +44,13 @@ namespace Assets._Project.Develop.Runtime.UI.Menu
             _childPresenters.Add(walletPresenter);
         }
 
-        private void CreateButtonsPresenter()
+        private void CreateButtons()
         {
-            MenuButtonsPresenter buttonsPresenter = _presentersFactory.CreateMenuButtonsPresenter(_screenView.Buttons);
-            _childPresenters.Add(buttonsPresenter);
+            foreach (CurrencyTypes type in Enum.GetValues(typeof(CurrencyTypes)))
+            {
+                CurrencyButtonPresenter buttonPresenter = _presentersFactory.CreateCurrencyButtonPresenter(type, _screenView.ButtonsContainer);
+                _childPresenters.Add(buttonPresenter);
+            }
         }
 
     }

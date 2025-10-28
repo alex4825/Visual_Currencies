@@ -150,7 +150,7 @@ GameObject:
   - component: {fileID: 506863109713012022}
   - component: {fileID: 6608006993018428420}
   m_Layer: 5
-  m_Name: GetCurrencyButton
+  m_Name: CurrencyButtonView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -196,7 +196,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2673c139722b7cf46b03e5e6f671980c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Assets._Project.Develop.Runtime.UI.Wallet.CurrencyButton
-  _currency: 0
+  _title: {fileID: 6117274655326479232}
+  _image: {fileID: 506863109713012022}
 --- !u!114 &506863109713012022
 MonoBehaviour:
   m_ObjectHideFlags: 0

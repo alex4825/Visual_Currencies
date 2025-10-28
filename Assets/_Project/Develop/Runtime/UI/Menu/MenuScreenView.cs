@@ -7,10 +7,8 @@ namespace Assets._Project.Develop.Runtime.UI.Menu
 {
     public class MenuScreenView : MonoBehaviour
     {
-        [SerializeField] private List<CurrencyButton> _buttons;
-
         [field: SerializeField] public IconTextListView WalletView { get; private set; }
 
-        public IReadOnlyList<CurrencyButton> Buttons => _buttons;
+        [field: SerializeField] public Transform ButtonsContainer { get; private set; }
     }
 }

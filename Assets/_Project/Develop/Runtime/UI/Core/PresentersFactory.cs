@@ -6,6 +6,7 @@ using Assets._Project.Develop.Runtime.UI.Wallet;
 using Assets._Project.Develop.Runtime.Utilities.ConfigsManagement;
 using R3;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.UI.Core
 {
@@ -14,18 +15,15 @@ namespace Assets._Project.Develop.Runtime.UI.Core
         private readonly WalletService _walletService;
         private readonly ViewsFactory _viewsFactory;
         private readonly ConfigsProviderService _configsProviderService;
-        private readonly CurrencyRandomizer _currencyRandomizer;
 
         public PresentersFactory(
             WalletService walletService, 
             ViewsFactory viewsFactory, 
-            ConfigsProviderService configsProviderService, 
-            CurrencyRandomizer currencyRandomizer)
+            ConfigsProviderService configsProviderService)
         {
             _walletService = walletService;
             _viewsFactory = viewsFactory;
             _configsProviderService = configsProviderService;
-            _currencyRandomizer = currencyRandomizer;
         }
 
         public CurrencyPresenter CreateCurrencyPresenter(
@@ -45,9 +43,11 @@ namespace Assets._Project.Develop.Runtime.UI.Core
             return new WalletPresenter(_walletService, this, _viewsFactory, view);
         }
 
-        public MenuButtonsPresenter CreateMenuButtonsPresenter(IReadOnlyList<CurrencyButton> buttons)
+        public CurrencyButtonPresenter CreateCurrencyButtonPresenter(CurrencyTypes currencyType, Transform container)
         {
-            return new MenuButtonsPresenter(buttons, _walletService, _currencyRandomizer);
+            CurrencyButtonView view = _viewsFactory.Create<CurrencyButtonView>(ViewIDs.CurrencyButtonView, container);
+
+            return new CurrencyButtonPresenter(view, _walletService, _configsProviderService, currencyType);
         }
     }
 }

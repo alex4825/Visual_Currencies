@@ -1,6 +1,5 @@
 using Assets._Project.Develop.Runtime.Configs;
 using Assets._Project.Develop.Runtime.Meta.Features.Wallet;
-using Assets._Project.Develop.Runtime.Utilities.ConfigsManagement;
 using Random = UnityEngine.Random;
 
 namespace Assets._Project.Develop.Runtime.UI.Menu
@@ -9,9 +8,9 @@ namespace Assets._Project.Develop.Runtime.UI.Menu
     {
         private CurrencyRangeConfig _currencyRangeConfig;
 
-        public CurrencyRandomizer(ConfigsProviderService configsProviderService)
+        public CurrencyRandomizer(CurrencyRangeConfig currencyRangeConfig)
         {
-            _currencyRangeConfig = configsProviderService.GetConfig<CurrencyRangeConfig>();
+            _currencyRangeConfig = currencyRangeConfig;
         }
 
         public int RandomGold => GetFor(CurrencyTypes.Gold);

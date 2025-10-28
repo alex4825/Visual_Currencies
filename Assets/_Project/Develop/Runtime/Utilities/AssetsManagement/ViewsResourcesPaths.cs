@@ -8,6 +8,7 @@ namespace Assets._Project.Develop.Runtime.Utilities.AssetsManagement
         private static Dictionary<string, string> _viewIDToResourcesPath = new Dictionary<string, string>()
         {
             {ViewIDs.CurrencyView, "UI/CurrencyView" },
+            {ViewIDs.CurrencyButtonView, "UI/CurrencyButtonView" },
         };
 
         public static bool TryGetBy(string id, out string path)
