@@ -10,5 +10,6 @@ namespace Assets._Project.Develop.Runtime.UI.Menu
         [field: SerializeField] public IconTextListView WalletView { get; private set; }
 
         [field: SerializeField] public Transform ButtonsContainer { get; private set; }
+        //[field: SerializeField] public Transform SlidersContainer { get; private set; }
     }
 }

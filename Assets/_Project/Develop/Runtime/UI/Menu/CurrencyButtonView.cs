@@ -6,11 +6,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets._Project.Develop.Runtime.UI.Wallet
+namespace Assets._Project.Develop.Runtime.UI.Menu
 {
     [RequireComponent(typeof(Button))]
-    //[RequireComponent(typeof(ParticleSystem))]
-    //[RequireComponent(typeof(UIParticle))]
     public class CurrencyButtonView : MonoBehaviour, IView
     {
         public event Action Clicked;
@@ -24,11 +22,6 @@ namespace Assets._Project.Develop.Runtime.UI.Wallet
 
         private Button _button;
 
-        public void SetTitle(string text) => _title.text = text;
-        public void SetSprite(Sprite sprite) => _image.sprite = sprite;
-        public void SetColor(Color color) => _image.color = color;
-
-
         private void Awake()
         {
             _button = GetComponent<Button>();
@@ -41,6 +34,10 @@ namespace Assets._Project.Develop.Runtime.UI.Wallet
         {
             _button.onClick.RemoveListener(OnClick);
         }
+
+        public void SetTitle(string text) => _title.text = text;
+        public void SetSprite(Sprite sprite) => _image.sprite = sprite;
+        public void SetColor(Color color) => _image.color = color;
     }
 
 }

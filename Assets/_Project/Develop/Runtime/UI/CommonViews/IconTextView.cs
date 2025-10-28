@@ -12,5 +12,6 @@ namespace Assets._Project.Develop.Runtime.UI.CommonViews
 
         public void SetText(string text) => _text.text = text;
         public void SetIcon(Sprite icon) => _icon.sprite = icon;
+        public Transform IconTransform => _icon.transform;
     }
 }

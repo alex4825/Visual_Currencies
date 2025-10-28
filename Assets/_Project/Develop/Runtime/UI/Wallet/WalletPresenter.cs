@@ -2,6 +2,7 @@
 using Assets._Project.Develop.Runtime.UI.CommonViews;
 using Assets._Project.Develop.Runtime.UI.Core;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Assets._Project.Develop.Runtime.UI.Wallet
 {
@@ -38,6 +39,13 @@ namespace Assets._Project.Develop.Runtime.UI.Wallet
                 currencyPresenter.Initialize();
                 _currencyPresenters.Add(currencyPresenter);
             }
+        }
+
+        public CurrencyPresenter GetPresenterBy(CurrencyTypes type)
+        {
+            CurrencyPresenter presenter = _currencyPresenters.First(presenter => presenter.CurrencyType == type);
+
+            return presenter;
         }
 
         public void Dispose()

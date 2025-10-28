@@ -4,6 +4,7 @@ using Assets._Project.Develop.Runtime.UI.CommonViews;
 using Assets._Project.Develop.Runtime.UI.Core;
 using R3;
 using System;
+using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.UI.Wallet
 {
@@ -28,6 +29,7 @@ namespace Assets._Project.Develop.Runtime.UI.Wallet
             _currencyIconsConfig = currencyIconsConfig;
             _view = view;
         }
+        public CurrencyTypes CurrencyType => _currencyType;
 
         public IconTextView View => _view;
 

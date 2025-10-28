@@ -13,6 +13,8 @@ namespace Assets._Project.Develop.Runtime.UI.Menu
 
         private List<IPresenter> _childPresenters = new();
 
+        private WalletPresenter _walletPresenter;
+
         public MenuScreenPresenter(
             MenuScreenView screenView,
             PresentersFactory presentersFactory)
@@ -24,10 +26,11 @@ namespace Assets._Project.Develop.Runtime.UI.Menu
         public void Initialize()
         {
             CreateWallet();
-            CreateButtons();
 
-            foreach (IPresenter childPresenter in _childPresenters)
-                childPresenter.Initialize();
+            /*foreach (IPresenter childPresenter in _childPresenters)
+                childPresenter.Initialize();*/
+
+            CreateButtons();
         }
 
         public void Dispose()
@@ -40,15 +43,19 @@ namespace Assets._Project.Develop.Runtime.UI.Menu
 
         private void CreateWallet()
         {
-            WalletPresenter walletPresenter = _presentersFactory.CreateWalletPresenter(_screenView.WalletView);
-            _childPresenters.Add(walletPresenter);
+            _walletPresenter = _presentersFactory.CreateWalletPresenter(_screenView.WalletView);
+            _walletPresenter.Initialize();
+            _childPresenters.Add(_walletPresenter);
         }
 
         private void CreateButtons()
         {
             foreach (CurrencyTypes type in Enum.GetValues(typeof(CurrencyTypes)))
             {
-                CurrencyButtonPresenter buttonPresenter = _presentersFactory.CreateCurrencyButtonPresenter(type, _screenView.ButtonsContainer);
+                CurrencyButtonPresenter buttonPresenter 
+                    = _presentersFactory.CreateCurrencyButtonPresenter(_walletPresenter.GetPresenterBy(type), type, _screenView.ButtonsContainer);
+
+                buttonPresenter.Initialize();
                 _childPresenters.Add(buttonPresenter);
             }
         }

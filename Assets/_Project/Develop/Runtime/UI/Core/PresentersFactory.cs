@@ -43,11 +43,11 @@ namespace Assets._Project.Develop.Runtime.UI.Core
             return new WalletPresenter(_walletService, this, _viewsFactory, view);
         }
 
-        public CurrencyButtonPresenter CreateCurrencyButtonPresenter(CurrencyTypes currencyType, Transform container)
+        public CurrencyButtonPresenter CreateCurrencyButtonPresenter(CurrencyPresenter currencyPresenter, CurrencyTypes currencyType, Transform container)
         {
             CurrencyButtonView view = _viewsFactory.Create<CurrencyButtonView>(ViewIDs.CurrencyButtonView, container);
 
-            return new CurrencyButtonPresenter(view, _walletService, _configsProviderService, currencyType);
+            return new CurrencyButtonPresenter(view, _walletService, _configsProviderService, currencyType, currencyPresenter);
         }
     }
 }

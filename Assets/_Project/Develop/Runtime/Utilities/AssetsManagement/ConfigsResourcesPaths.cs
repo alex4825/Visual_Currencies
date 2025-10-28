@@ -11,6 +11,8 @@ namespace Assets._Project.Develop.Runtime.Utilities.AssetsManagement
         {
             {typeof(CurrencyIconsConfig), "Configs/CurrencyIconsConfig" },
             {typeof(CurrencyRangeConfig), "Configs/CurrencyRangeConfig" },
+            {typeof(EffectParticleConfig), "Configs/AnimationParticleConfig" },
+            {typeof(CurrencyButtonsConfig), "Configs/CurrencyButtonsConfig" },
         };
 
         public static bool TryGet<T>(out string path) where T : ScriptableObject

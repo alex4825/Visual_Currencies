@@ -2,31 +2,43 @@ using Assets._Project.Develop.Runtime.Configs;
 using Assets._Project.Develop.Runtime.Meta.Features.Wallet;
 using Assets._Project.Develop.Runtime.UI.Core;
 using Assets._Project.Develop.Runtime.UI.Wallet;
+using Assets._Project.Develop.Runtime.UI.Wallet.Animation;
 using Assets._Project.Develop.Runtime.Utilities.ConfigsManagement;
+using Coffee.UIExtensions;
+using R3;
 
 namespace Assets._Project.Develop.Runtime.UI.Menu
 {
     public class CurrencyButtonPresenter : IPresenter
     {
-        private CurrencyButtonView _view;
+        private readonly CurrencyButtonView _view;
         private readonly WalletService _walletService;
         private CurrencyTypes _currencyType;
+        private readonly CurrencyPresenter _currencyPresenter;
+
+        private ReactiveProperty<float> _timeScaler = new(1);
 
         private CurrencyRandomizer _currencyRandomizer;
         private CurrencyButtonsConfig _buttonsConfig;
 
+        private CurrencyEffectVisualizer _currencyEffectVisualizer;
+
         public CurrencyButtonPresenter(
-            CurrencyButtonView view, 
+            CurrencyButtonView view,
             WalletService walletService,
-            ConfigsProviderService configsProviderService, 
-            CurrencyTypes currencyType)
+            ConfigsProviderService configsProviderService,
+            CurrencyTypes currencyType,
+            CurrencyPresenter currencyPresenter)
         {
             _view = view;
             _walletService = walletService;
             _currencyType = currencyType;
+            _currencyPresenter = currencyPresenter;
 
             _currencyRandomizer = new(configsProviderService.GetConfig<CurrencyRangeConfig>());
             _buttonsConfig = configsProviderService.GetConfig<CurrencyButtonsConfig>();
+
+            _currencyEffectVisualizer = _view.GetComponent<CurrencyEffectVisualizer>();
         }
 
         public void Initialize()
@@ -36,6 +48,8 @@ namespace Assets._Project.Develop.Runtime.UI.Menu
             _view.SetColor(_buttonsConfig.GetColorFor(_currencyType));
 
             _view.Clicked += OnButtonClicked;
+
+            _currencyEffectVisualizer.Link(_currencyPresenter.View.GetComponentInChildren<UIParticleAttractor>(), _timeScaler);
         }
 
         public void Dispose()
@@ -45,7 +59,11 @@ namespace Assets._Project.Develop.Runtime.UI.Menu
 
         private void OnButtonClicked()
         {
-            _walletService.Add(_currencyType, _currencyRandomizer.GetFor(_currencyType));
+            int currencyCount = _currencyRandomizer.GetFor(_currencyType);
+
+            _walletService.Add(_currencyType, currencyCount);
+
+            _currencyEffectVisualizer.ShowEffect(currencyCount);
         }
     }
 }
