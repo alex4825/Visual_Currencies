@@ -4,6 +4,8 @@ using Assets._Project.Develop.Runtime.Utilities.Other;
 using DG.Tweening;
 using R3;
 using System;
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -22,6 +24,8 @@ namespace Assets._Project.Develop.Runtime.UI.Wallet.Animation
         private Transform _vfxLayer;
 
         private ObjectPool<RectTransform> _particlesPool;
+
+        private List<Tween> _particleTweens = new();
 
         private IDisposable _timeScaleDisposable;
 
@@ -66,23 +70,35 @@ namespace Assets._Project.Develop.Runtime.UI.Wallet.Animation
 
                 randomDirection = GetOppositeDirectionWithOffset(randomDirection).normalized;
 
-                float randomEmitTime = Random.Range(_effectConfig.TimeToEmit / RandomTimeDivider, _effectConfig.TimeToEmit);
+                float randomEmitTime = Random.Range(_effectConfig.TimeToEmit / RandomTimeDivider, _effectConfig.TimeToEmit) / _timeScale.Value;
 
                 Vector2 movePoint = particle.anchoredPosition + randomDirection * randomDistance;
 
-                particle
-                    .DOAnchorPos(movePoint, randomEmitTime)
-                    .SetEase(_effectConfig.EmitEaseType)
-                    .OnComplete(() => MoveToAttractor(particle));
+                Tween emitTween = particle
+                        .DOAnchorPos(movePoint, randomEmitTime)
+                        .SetEase(_effectConfig.EmitEaseType);
+
+                emitTween
+                    .OnComplete(() =>
+                        {
+                            MoveToAttractor(particle);
+                            _particleTweens.Remove(emitTween);
+                        });
+
+                _particleTweens.Add(emitTween);
+
             }
 
             void MoveToAttractor(RectTransform particle)
             {
-                float randomAttractTime = Random.Range(_effectConfig.TimeToAttract / RandomTimeDivider, _effectConfig.TimeToAttract);
+                float randomAttractTime = Random.Range(_effectConfig.TimeToAttract / RandomTimeDivider, _effectConfig.TimeToAttract) / _timeScale.Value;
 
-                particle
-                    .DOMove(_attractor.position, randomAttractTime)
-                    .SetEase(_effectConfig.AttractEaseType)
+
+                Tween attractTween = particle
+                        .DOMove(_attractor.position, randomAttractTime)
+                        .SetEase(_effectConfig.AttractEaseType);
+
+                attractTween
                     .OnComplete(() =>
                     {
                         _particlesPool.Return(particle);
@@ -91,7 +107,11 @@ namespace Assets._Project.Develop.Runtime.UI.Wallet.Animation
 
                         if (particlesCompletedCount >= particlesCount)
                             _visualWalletService.Add(_currencyType, costRemain);
+
+                        _particleTweens.Remove(attractTween);
                     });
+
+                _particleTweens.Add(attractTween);
             }
         }
 
@@ -102,7 +122,10 @@ namespace Assets._Project.Develop.Runtime.UI.Wallet.Animation
 
         private void OnTimeScaleChanged(float newValue)
         {
-
+            foreach (Tween tween in _particleTweens)
+            {
+                tween.DOTimeScale(newValue, 0);
+            }
         }
 
         private Vector2 GetOppositeDirectionWithOffset(Vector2 lastDirection)

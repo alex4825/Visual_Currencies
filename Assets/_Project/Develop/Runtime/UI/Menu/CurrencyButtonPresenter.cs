@@ -18,8 +18,8 @@ namespace Assets._Project.Develop.Runtime.UI.Menu
         private CurrencyTypes _currencyType;
         private Transform _currencyView;
         private Transform _vfxLayer;
+        private ReactiveProperty<float> _timeScale;
 
-        private ReactiveProperty<float> _timeScale = new(1);
 
         private CurrencyRandomizer _currencyRandomizer;
         private CurrencyButtonsConfig _buttonsConfig;
@@ -33,7 +33,8 @@ namespace Assets._Project.Develop.Runtime.UI.Menu
             ConfigsProviderService configsProviderService,
             CurrencyTypes currencyType,
             Transform currencyView,
-            Transform vfxLayer)
+            Transform vfxLayer,
+            ReactiveProperty<float> timeScale)
         {
             _view = view;
             _originalWalletService = originalWalletService;
@@ -41,6 +42,7 @@ namespace Assets._Project.Develop.Runtime.UI.Menu
             _currencyType = currencyType;
             _currencyView = currencyView;
             _vfxLayer = vfxLayer;
+            _timeScale = timeScale;
 
             _currencyRandomizer = new(configsProviderService.GetConfig<CurrencyRangeConfig>());
             _buttonsConfig = configsProviderService.GetConfig<CurrencyButtonsConfig>();
@@ -48,8 +50,8 @@ namespace Assets._Project.Develop.Runtime.UI.Menu
             _currencyEffectVisualizer = new(
                 _currencyType,
                 _buttonsConfig.GetEffectFor(_currencyType),
-                _timeScale, 
-                _view.transform, 
+                _timeScale,
+                _view.transform,
                 _currencyView.GetComponentInChildren<ParticleAttractor>().transform,
                 _visualWalletService,
                 _vfxLayer);

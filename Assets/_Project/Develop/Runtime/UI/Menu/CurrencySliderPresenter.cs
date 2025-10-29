@@ -7,6 +7,7 @@ namespace Assets._Project.Develop.Runtime.UI.Menu
     public class CurrencySliderPresenter : IPresenter
     {
         private const float MaxKoef = 3f;
+        private const float InitialKoef = 1f;
 
         private CurrencySliderView _view;
 
@@ -14,7 +15,6 @@ namespace Assets._Project.Develop.Runtime.UI.Menu
         {
             _view = view;
             CurrencyType = currencyType;
-            TimeScaler = new(1);
         }
 
         public CurrencyTypes CurrencyType { get; private set; }
@@ -23,6 +23,10 @@ namespace Assets._Project.Develop.Runtime.UI.Menu
         public void Initialize()
         {
             _view.ValueChanged += OnValueChanged;
+
+            _view.SetMaxKoefValue(MaxKoef);
+            TimeScaler = new(InitialKoef);
+            OnValueChanged(InitialKoef);
         }
 
         public void Dispose()
@@ -32,7 +36,7 @@ namespace Assets._Project.Develop.Runtime.UI.Menu
 
         private void OnValueChanged(float newValue)
         {
-            TimeScaler.Value = newValue * MaxKoef;
+            TimeScaler.Value = newValue;
 
             _view.SetKoefText(TimeScaler.Value);
         }

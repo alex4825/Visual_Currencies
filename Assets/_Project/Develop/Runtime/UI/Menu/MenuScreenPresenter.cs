@@ -3,6 +3,7 @@ using Assets._Project.Develop.Runtime.UI.Core;
 using Assets._Project.Develop.Runtime.UI.Wallet;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Assets._Project.Develop.Runtime.UI.Menu
 {
@@ -15,6 +16,7 @@ namespace Assets._Project.Develop.Runtime.UI.Menu
 
         private WalletService _visualWalletService;
         private WalletPresenter _walletPresenter;
+        private List<CurrencySliderPresenter> _currencySliderPresenters = new();
 
         public MenuScreenPresenter(
             MenuScreenView screenView,
@@ -27,8 +29,8 @@ namespace Assets._Project.Develop.Runtime.UI.Menu
         public void Initialize()
         {
             CreateWallet();
-            CreateButtons();
             CreateSliders();
+            CreateButtons();
 
             /*foreach (IPresenter childPresenter in _childPresenters)
                 childPresenter.Initialize();*/
@@ -41,6 +43,7 @@ namespace Assets._Project.Develop.Runtime.UI.Menu
                 childPresenter.Dispose();
 
             _childPresenters.Clear();
+            _currencySliderPresenters.Clear();
         }
 
         private void CreateWallet()
@@ -54,9 +57,13 @@ namespace Assets._Project.Develop.Runtime.UI.Menu
         {
             foreach (CurrencyTypes type in Enum.GetValues(typeof(CurrencyTypes)))
             {
-                CurrencyButtonPresenter buttonPresenter 
-                    = _presentersFactory
-                        .CreateCurrencyButtonPresenter(_visualWalletService, type, _screenView.ButtonsContainer, _walletPresenter.GetPresenterBy(type).View.transform);
+                CurrencyButtonPresenter buttonPresenter
+                    = _presentersFactory.CreateCurrencyButtonPresenter(
+                        _visualWalletService,
+                        type,
+                        _screenView.ButtonsContainer,
+                        _walletPresenter.GetPresenterBy(type).View.transform,
+                        _currencySliderPresenters.First(presenter => presenter.CurrencyType == type).TimeScaler);
 
                 buttonPresenter.Initialize();
                 _childPresenters.Add(buttonPresenter);
@@ -70,6 +77,7 @@ namespace Assets._Project.Develop.Runtime.UI.Menu
                 CurrencySliderPresenter currencySliderPresenter = _presentersFactory.CreateCurrencySliderPresenter(type, _screenView.SlidersContainer);
                 currencySliderPresenter.Initialize();
                 _childPresenters.Add(currencySliderPresenter);
+                _currencySliderPresenters.Add(currencySliderPresenter);
             }
         }
     }

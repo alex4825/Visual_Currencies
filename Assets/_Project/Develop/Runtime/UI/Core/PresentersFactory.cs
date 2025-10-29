@@ -51,11 +51,20 @@ namespace Assets._Project.Develop.Runtime.UI.Core
             WalletService visualWalletService,
             CurrencyTypes currencyType,
             Transform container,
-            Transform currencyView)
+            Transform currencyView,
+            ReactiveProperty<float> timeScaler)
         {
             CurrencyButtonView view = _viewsFactory.Create<CurrencyButtonView>(ViewIDs.CurrencyButtonView, container);
 
-            return new CurrencyButtonPresenter(view, _walletService, visualWalletService, _configsProviderService, currencyType, currencyView, _uIRoot.VFXLayer);
+            return new CurrencyButtonPresenter(
+                view, 
+                _walletService,
+                visualWalletService, 
+                _configsProviderService, 
+                currencyType,
+                currencyView, 
+                _uIRoot.VFXLayer,
+                timeScaler);
         }
 
         public CurrencySliderPresenter CreateCurrencySliderPresenter(CurrencyTypes currencyType, Transform container)

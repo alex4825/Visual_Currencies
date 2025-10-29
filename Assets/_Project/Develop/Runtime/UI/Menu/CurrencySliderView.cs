@@ -14,7 +14,8 @@ namespace Assets._Project.Develop.Runtime.UI.Menu
         [SerializeField] private Slider _slider;
         [SerializeField] private TextMeshProUGUI _koefText;
 
-        public void SetKoefText(float value) => _koefText.text = value.ToString("0.00");
+        public void SetKoefText(float value) => _koefText.text = value.ToString("0.0") + "x";
+        public void SetMaxKoefValue(float value) => _slider.maxValue = value;
 
         private void Awake()
         {
