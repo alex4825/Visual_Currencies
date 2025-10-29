@@ -4,6 +4,7 @@ using Assets._Project.Develop.Runtime.UI.Wallet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.UI.Menu
 {
@@ -32,8 +33,7 @@ namespace Assets._Project.Develop.Runtime.UI.Menu
             CreateSliders();
             CreateButtons();
 
-            /*foreach (IPresenter childPresenter in _childPresenters)
-                childPresenter.Initialize();*/
+            _screenView.CloseButton.onClick.AddListener(CloseGame);
 
         }
 
@@ -79,6 +79,15 @@ namespace Assets._Project.Develop.Runtime.UI.Menu
                 _childPresenters.Add(currencySliderPresenter);
                 _currencySliderPresenters.Add(currencySliderPresenter);
             }
+        }
+
+        private void CloseGame()
+        {
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
         }
     }
 }

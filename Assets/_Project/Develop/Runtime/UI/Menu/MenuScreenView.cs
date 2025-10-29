@@ -1,5 +1,6 @@
 using Assets._Project.Develop.Runtime.UI.CommonViews;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets._Project.Develop.Runtime.UI.Menu
 {
@@ -10,5 +11,7 @@ namespace Assets._Project.Develop.Runtime.UI.Menu
         [field: SerializeField] public Transform ButtonsContainer { get; private set; }
 
         [field: SerializeField] public Transform SlidersContainer { get; private set; }
+
+        [field: SerializeField] public Button CloseButton { get; private set; }
     }
 }
