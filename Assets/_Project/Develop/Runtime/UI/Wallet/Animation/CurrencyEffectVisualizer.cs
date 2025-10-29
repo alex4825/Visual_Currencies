@@ -51,6 +51,9 @@ namespace Assets._Project.Develop.Runtime.UI.Wallet.Animation
             OnTimeScaleChanged(_timeScale.Value);
         }
 
+        private float ScaledTimeToEmit => _effectConfig.TimeToEmit / _timeScale.Value;
+        private float ScaledTimeToAttract => _effectConfig.TimeToAttract / _timeScale.Value;
+
         public void ShowEffect(int currencyCount)
         {
             Vector2 direction = Vector2.right;
@@ -87,18 +90,17 @@ namespace Assets._Project.Develop.Runtime.UI.Wallet.Animation
 
                 emitTween
                     .OnComplete(() =>
-                        {
-                            MoveToAttractor(particle);
-                            _particleTweens.Remove(emitTween);
-                        });
+                    {
+                        MoveToAttractor(particle);
+                        _particleTweens.Remove(emitTween);
+                    });
 
                 _particleTweens.Add(emitTween);
             }
 
             void MoveToAttractor(RectTransform particle)
             {
-                float randomAttractTime = Random.Range(_effectConfig.TimeToAttract * MinTimeMultiplier, _effectConfig.TimeToAttract) / _timeScale.Value;
-
+                float randomAttractTime = Random.Range(ScaledTimeToAttract * MinTimeMultiplier, ScaledTimeToAttract);
 
                 Tween attractTween = particle
                         .DOMove(_attractor.position, randomAttractTime)
@@ -140,7 +142,7 @@ namespace Assets._Project.Develop.Runtime.UI.Wallet.Animation
 
             direction = GetOppositeDirectionWithOffset(direction).normalized;
 
-            float randomEmitTime = Random.Range(_effectConfig.TimeToEmit * MinTimeMultiplier, _effectConfig.TimeToEmit) / _timeScale.Value;
+            float randomEmitTime = Random.Range(ScaledTimeToEmit * MinTimeMultiplier, ScaledTimeToEmit);
 
             Vector2 movePoint = particle.anchoredPosition + direction * randomDistance;
 
@@ -158,7 +160,7 @@ namespace Assets._Project.Develop.Runtime.UI.Wallet.Animation
             Vector2 movePoint = particle.anchoredPosition + direction * _effectConfig.EmitMaxDistance;
 
             Tween emitTween = particle
-                    .DOAnchorPos(movePoint, _effectConfig.TimeToEmit)
+                    .DOAnchorPos(movePoint, ScaledTimeToEmit)
                     .SetEase(_effectConfig.EmitEaseType);
 
             return emitTween;
@@ -171,9 +173,8 @@ namespace Assets._Project.Develop.Runtime.UI.Wallet.Animation
             direction = GetOppositeDirectionWithOffset(direction).normalized;
 
             particle.anchoredPosition = particle.anchoredPosition + direction * randomDistance;
-            //Vector2 movePoint = particle.anchoredPosition + direction * randomDistance;
 
-            float randomShowTime = Random.Range(0, _effectConfig.TimeToEmit * MinTimeMultiplier) / _timeScale.Value;
+            float randomShowTime = Random.Range(0, ScaledTimeToEmit * MinTimeMultiplier);
 
             Tween emitTween = particle
                     .DOScale(1, randomShowTime).From(0)
@@ -181,7 +182,6 @@ namespace Assets._Project.Develop.Runtime.UI.Wallet.Animation
 
             return emitTween;
         }
-
 
         private Vector2 GetOppositeDirectionWithOffset(Vector2 direction)
         {
