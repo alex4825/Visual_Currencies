@@ -15,8 +15,8 @@ MonoBehaviour:
   _values:
     _serializedList:
     - Key: 0
-      Value: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+      Value: {fileID: 21300000, guid: 1413db55ed9235244b7df714fa5dee13, type: 3}
     - Key: 1
-      Value: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
+      Value: {fileID: 21300000, guid: 971989a54c6f75141aabac93c881f6fd, type: 3}
     - Key: 2
-      Value: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
+      Value: {fileID: 21300000, guid: 82b86cbe1f9b4804593c161fc9f6bef9, type: 3}

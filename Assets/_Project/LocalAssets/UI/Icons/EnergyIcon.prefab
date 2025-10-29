@@ -93,12 +93,16 @@ PrefabInstance:
       value: EnergyIcon
       objectReference: {fileID: 0}
     - target: {fileID: 7216896988753345441, guid: dc7ec0672c1610346a71b30b6cefc457, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 82b86cbe1f9b4804593c161fc9f6bef9, type: 3}
+    - target: {fileID: 7216896988753345441, guid: dc7ec0672c1610346a71b30b6cefc457, type: 3}
       propertyPath: m_Color.b
-      value: 0.5764706
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7216896988753345441, guid: dc7ec0672c1610346a71b30b6cefc457, type: 3}
       propertyPath: m_Color.g
-      value: 0.07843138
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7216896988753345441, guid: dc7ec0672c1610346a71b30b6cefc457, type: 3}
       propertyPath: m_Color.r

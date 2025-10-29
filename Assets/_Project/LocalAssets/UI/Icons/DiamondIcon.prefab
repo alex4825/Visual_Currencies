@@ -93,16 +93,20 @@ PrefabInstance:
       value: DiamondIcon
       objectReference: {fileID: 0}
     - target: {fileID: 7216896988753345441, guid: dc7ec0672c1610346a71b30b6cefc457, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 971989a54c6f75141aabac93c881f6fd, type: 3}
+    - target: {fileID: 7216896988753345441, guid: dc7ec0672c1610346a71b30b6cefc457, type: 3}
       propertyPath: m_Color.b
-      value: 0.8196079
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7216896988753345441, guid: dc7ec0672c1610346a71b30b6cefc457, type: 3}
       propertyPath: m_Color.g
-      value: 0.8078432
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7216896988753345441, guid: dc7ec0672c1610346a71b30b6cefc457, type: 3}
       propertyPath: m_Color.r
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
