@@ -149,6 +149,7 @@ GameObject:
   - component: {fileID: 1084093819276763860}
   - component: {fileID: 6608006993018428420}
   - component: {fileID: 5180923561502708725}
+  - component: {fileID: 3256312543644740931}
   m_Layer: 5
   m_Name: CurrencyButtonView
   m_TagString: Untagged
@@ -272,3 +273,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &3256312543644740931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8838038055862530348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c9c2379843965648bd62f0d72684a89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Assets._Project.Develop.Runtime.UI.Wallet.Animation.PointerVisual
+  _transform: {fileID: 2450244591345699365}
+  _easeTypeHover: 6
+  _easeTypeClick: 6
+  _scaleTime: 0.05
+  _maxScale: 1.1

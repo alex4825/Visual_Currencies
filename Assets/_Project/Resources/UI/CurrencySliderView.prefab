@@ -83,6 +83,7 @@ GameObject:
   - component: {fileID: 766299128327511148}
   - component: {fileID: 1983842968056846218}
   - component: {fileID: 3464393842884133322}
+  - component: {fileID: 572205872117982548}
   m_Layer: 5
   m_Name: BG
   m_TagString: Untagged
@@ -147,6 +148,23 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &572205872117982548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3998477194579767047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c9c2379843965648bd62f0d72684a89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Assets._Project.Develop.Runtime.UI.Wallet.Animation.PointerVisual
+  _transform: {fileID: 6536157302808085215}
+  _easeTypeHover: 6
+  _easeTypeClick: 6
+  _scaleTime: 0.05
+  _maxScale: 1.1
 --- !u!1 &4538790578669247823
 GameObject:
   m_ObjectHideFlags: 0
@@ -538,7 +556,7 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
-  m_UseSpriteMesh: 0
+  m_UseSpriteMesh: 1
   m_PixelsPerUnitMultiplier: 1
 --- !u!1 &8839753379803262606
 GameObject:
