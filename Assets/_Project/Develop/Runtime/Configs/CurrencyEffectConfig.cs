@@ -1,4 +1,5 @@
-﻿using DG.Tweening;
+﻿using Assets._Project.Develop.Runtime.UI.Wallet.Animation;
+using DG.Tweening;
 using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Configs
@@ -13,5 +14,6 @@ namespace Assets._Project.Develop.Runtime.Configs
         [field: SerializeField] public Ease AttractEaseType { get; private set; } = Ease.InOutSine;
         [field: SerializeField] public int MaxParticles { get; private set; } = 100;
         [field: SerializeField] public RectTransform IconPrefab { get; private set; }
+        [field: SerializeField] public EmitTypes EmitType { get; private set; } = EmitTypes.Explosion;
     }
 }

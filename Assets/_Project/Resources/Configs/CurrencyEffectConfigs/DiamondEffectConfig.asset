@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3365cc6b28447a4e8269e570a759016, type: 3}
   m_Name: DiamondEffectConfig
   m_EditorClassIdentifier: Assembly-CSharp::Assets._Project.Develop.Runtime.Configs.CurrencyEffectConfig
-  <TimeToEmit>k__BackingField: 1
+  <TimeToEmit>k__BackingField: 1.5
   <TimeToAttract>k__BackingField: 1
-  <EmitEaseType>k__BackingField: 1
+  <EmitEaseType>k__BackingField: 28
   <EmitMaxDistance>k__BackingField: 300
-  <AttractEaseType>k__BackingField: 4
+  <AttractEaseType>k__BackingField: 22
   <MaxParticles>k__BackingField: 100
   <IconPrefab>k__BackingField: {fileID: 2626321020380050322, guid: bf1281872fbc5614aa240bae0bda2b5a, type: 3}
+  <EmitType>k__BackingField: 2

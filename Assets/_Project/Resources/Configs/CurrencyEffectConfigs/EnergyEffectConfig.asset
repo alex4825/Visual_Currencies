@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Assets._Project.Develop.Runtime.Configs.CurrencyEffectConfig
   <TimeToEmit>k__BackingField: 1
   <TimeToAttract>k__BackingField: 1
-  <EmitEaseType>k__BackingField: 1
-  <EmitMaxDistance>k__BackingField: 300
-  <AttractEaseType>k__BackingField: 4
+  <EmitEaseType>k__BackingField: 19
+  <EmitMaxDistance>k__BackingField: 250
+  <AttractEaseType>k__BackingField: 17
   <MaxParticles>k__BackingField: 100
   <IconPrefab>k__BackingField: {fileID: 2626321020380050322, guid: dd42f87eb06d7524eba0d8f47a8f6167, type: 3}
+  <EmitType>k__BackingField: 1

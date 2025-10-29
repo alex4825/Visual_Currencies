@@ -5,7 +5,6 @@ using DG.Tweening;
 using R3;
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -13,7 +12,7 @@ namespace Assets._Project.Develop.Runtime.UI.Wallet.Animation
 {
     public class CurrencyEffectVisualizer : IDisposable
     {
-        private const float RandomTimeDivider = 2;
+        private const float MinTimeMultiplier = 0.5f;
 
         private CurrencyTypes _currencyType;
         private CurrencyEffectConfig _effectConfig;
@@ -54,7 +53,7 @@ namespace Assets._Project.Develop.Runtime.UI.Wallet.Animation
 
         public void ShowEffect(int currencyCount)
         {
-            Vector2 randomDirection = Vector2.right;
+            Vector2 direction = Vector2.right;
 
             int particlesCount = Math.Min(currencyCount, _effectConfig.MaxParticles);
             int particleCost = Math.Max(1, currencyCount / particlesCount);
@@ -66,17 +65,25 @@ namespace Assets._Project.Develop.Runtime.UI.Wallet.Animation
             {
                 RectTransform particle = _particlesPool.Get(_emitter.position);
 
-                float randomDistance = Random.Range(_effectConfig.EmitMaxDistance / RandomTimeDivider, _effectConfig.EmitMaxDistance);
+                Tween emitTween;
 
-                randomDirection = GetOppositeDirectionWithOffset(randomDirection).normalized;
+                switch (_effectConfig.EmitType)
+                {
+                    case EmitTypes.Explosion:
+                        emitTween = CreateExplosionEmitTweenFor(particle, ref direction);
+                        break;
 
-                float randomEmitTime = Random.Range(_effectConfig.TimeToEmit / RandomTimeDivider, _effectConfig.TimeToEmit) / _timeScale.Value;
+                    case EmitTypes.AroundCenter:
+                        emitTween = CreateAroundCenterEmitTweenFor(particle, ref direction, particlesCount);
+                        break;
 
-                Vector2 movePoint = particle.anchoredPosition + randomDirection * randomDistance;
+                    case EmitTypes.SmoothAppearance:
+                        emitTween = CreateSmoothAppearanceTweenFor(particle, ref direction);
+                        break;
 
-                Tween emitTween = particle
-                        .DOAnchorPos(movePoint, randomEmitTime)
-                        .SetEase(_effectConfig.EmitEaseType);
+                    default:
+                        throw new ArgumentException($"No settings for {_effectConfig.EmitType.ToString()}");
+                }
 
                 emitTween
                     .OnComplete(() =>
@@ -86,12 +93,11 @@ namespace Assets._Project.Develop.Runtime.UI.Wallet.Animation
                         });
 
                 _particleTweens.Add(emitTween);
-
             }
 
             void MoveToAttractor(RectTransform particle)
             {
-                float randomAttractTime = Random.Range(_effectConfig.TimeToAttract / RandomTimeDivider, _effectConfig.TimeToAttract) / _timeScale.Value;
+                float randomAttractTime = Random.Range(_effectConfig.TimeToAttract * MinTimeMultiplier, _effectConfig.TimeToAttract) / _timeScale.Value;
 
 
                 Tween attractTween = particle
@@ -128,11 +134,69 @@ namespace Assets._Project.Develop.Runtime.UI.Wallet.Animation
             }
         }
 
-        private Vector2 GetOppositeDirectionWithOffset(Vector2 lastDirection)
+        private Tween CreateExplosionEmitTweenFor(RectTransform particle, ref Vector2 direction)
+        {
+            float randomDistance = Random.Range(_effectConfig.EmitMaxDistance * MinTimeMultiplier, _effectConfig.EmitMaxDistance);
+
+            direction = GetOppositeDirectionWithOffset(direction).normalized;
+
+            float randomEmitTime = Random.Range(_effectConfig.TimeToEmit * MinTimeMultiplier, _effectConfig.TimeToEmit) / _timeScale.Value;
+
+            Vector2 movePoint = particle.anchoredPosition + direction * randomDistance;
+
+            Tween emitTween = particle
+                    .DOAnchorPos(movePoint, randomEmitTime)
+                    .SetEase(_effectConfig.EmitEaseType);
+
+            return emitTween;
+        }
+
+        private Tween CreateAroundCenterEmitTweenFor(RectTransform particle, ref Vector2 direction, int particlesCount)
+        {
+            direction = GetClockwiseDirectionWithOffset(direction, particlesCount).normalized;
+
+            Vector2 movePoint = particle.anchoredPosition + direction * _effectConfig.EmitMaxDistance;
+
+            Tween emitTween = particle
+                    .DOAnchorPos(movePoint, _effectConfig.TimeToEmit)
+                    .SetEase(_effectConfig.EmitEaseType);
+
+            return emitTween;
+        }
+
+        private Tween CreateSmoothAppearanceTweenFor(RectTransform particle, ref Vector2 direction)
+        {
+            float randomDistance = Random.Range(_effectConfig.EmitMaxDistance * MinTimeMultiplier, _effectConfig.EmitMaxDistance);
+
+            direction = GetOppositeDirectionWithOffset(direction).normalized;
+
+            particle.anchoredPosition = particle.anchoredPosition + direction * randomDistance;
+            //Vector2 movePoint = particle.anchoredPosition + direction * randomDistance;
+
+            float randomShowTime = Random.Range(0, _effectConfig.TimeToEmit * MinTimeMultiplier) / _timeScale.Value;
+
+            Tween emitTween = particle
+                    .DOScale(1, randomShowTime).From(0)
+                    .SetEase(_effectConfig.EmitEaseType);
+
+            return emitTween;
+        }
+
+
+        private Vector2 GetOppositeDirectionWithOffset(Vector2 direction)
+        {
+            float lastAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+            float newAngle = lastAngle + Random.Range(120f, 270f);
+
+            return new Vector2(Mathf.Cos(newAngle * Mathf.Deg2Rad), Mathf.Sin(newAngle * Mathf.Deg2Rad));
+        }
+
+        private Vector2 GetClockwiseDirectionWithOffset(Vector2 lastDirection, int particlesCount)
         {
             float lastAngle = Mathf.Atan2(lastDirection.y, lastDirection.x) * Mathf.Rad2Deg;
 
-            float newAngle = lastAngle + Random.Range(120f, 270f);
+            float newAngle = lastAngle + Mathf.Max(360f / particlesCount, 1);
 
             return new Vector2(Mathf.Cos(newAngle * Mathf.Deg2Rad), Mathf.Sin(newAngle * Mathf.Deg2Rad));
         }
