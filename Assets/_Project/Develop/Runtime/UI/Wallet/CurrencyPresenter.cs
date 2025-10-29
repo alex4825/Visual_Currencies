@@ -20,7 +20,7 @@ namespace Assets._Project.Develop.Runtime.UI.Wallet
 
         public CurrencyPresenter(
             ReactiveProperty<int> currency,
-            CurrencyTypes currencyType, 
+            CurrencyTypes currencyType,
             CurrencyIconsConfig currencyIconsConfig,
             IconTextView view)
         {
@@ -46,7 +46,11 @@ namespace Assets._Project.Develop.Runtime.UI.Wallet
             _disposable.Dispose();
         }
 
-        private void OnCurrencyChanged(int newValue) => UpdateValue(newValue);
+        private void OnCurrencyChanged(int newValue)
+        {
+            UpdateValue(newValue);
+            _view.Shake();
+        }
 
         private void UpdateValue(int newValue) => _view.SetText(newValue.ToString());
     }
