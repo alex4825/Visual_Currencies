@@ -46,10 +46,12 @@ namespace Assets._Project.Develop.Runtime.UI.Menu
             _buttonsConfig = configsProviderService.GetConfig<CurrencyButtonsConfig>();
 
             _currencyEffectVisualizer = new(
+                _currencyType,
                 _buttonsConfig.GetEffectFor(_currencyType),
                 _timeScale, 
                 _view.transform, 
                 _currencyView.GetComponentInChildren<ParticleAttractor>().transform,
+                _visualWalletService,
                 _vfxLayer);
         }
 
@@ -60,8 +62,6 @@ namespace Assets._Project.Develop.Runtime.UI.Menu
             _view.SetColor(_buttonsConfig.GetColorFor(_currencyType));
 
             _view.Clicked += OnButtonClicked;
-
-            //_currencyEffectVisualizer.Link(_currencyPresenter.View.GetComponentInChildren<UIParticleAttractor>(), _timeScaler);
         }
 
         public void Dispose()

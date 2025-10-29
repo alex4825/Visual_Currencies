@@ -1,4 +1,5 @@
 using Assets._Project.Develop.Runtime.Configs;
+using Assets._Project.Develop.Runtime.Meta.Features.Wallet;
 using Assets._Project.Develop.Runtime.Utilities.Other;
 using DG.Tweening;
 using R3;
@@ -12,10 +13,12 @@ namespace Assets._Project.Develop.Runtime.UI.Wallet.Animation
     {
         private const float RandomTimeDivider = 2;
 
+        private CurrencyTypes _currencyType;
         private CurrencyEffectConfig _effectConfig;
         private ReactiveProperty<float> _timeScale;
         private Transform _emitter;
         private Transform _attractor;
+        private WalletService _visualWalletService;
         private Transform _vfxLayer;
 
         private ObjectPool<RectTransform> _particlesPool;
@@ -23,16 +26,20 @@ namespace Assets._Project.Develop.Runtime.UI.Wallet.Animation
         private IDisposable _timeScaleDisposable;
 
         public CurrencyEffectVisualizer(
+            CurrencyTypes currencyType,
             CurrencyEffectConfig effectConfig,
             ReactiveProperty<float> timeScale,
             Transform emitter,
             Transform attractor,
+            WalletService visualWalletService,
             Transform vfxLayer)
         {
+            _currencyType = currencyType;
             _effectConfig = effectConfig;
             _timeScale = timeScale;
             _emitter = emitter;
             _attractor = attractor;
+            _visualWalletService = visualWalletService;
             _vfxLayer = vfxLayer;
 
             _particlesPool = new(_effectConfig.IconPrefab, _effectConfig.MaxParticles, _vfxLayer);
@@ -45,7 +52,13 @@ namespace Assets._Project.Develop.Runtime.UI.Wallet.Animation
         {
             Vector2 randomDirection = Vector2.right;
 
-            for (int i = 0; i < currencyCount; i++)
+            int particlesCount = Math.Min(currencyCount, _effectConfig.MaxParticles);
+            int particleCost = Math.Max(1, currencyCount / particlesCount);
+            int costRemain = currencyCount - particleCost * particlesCount;
+
+            int particlesCompletedCount = 0;
+
+            for (int i = 0; i < particlesCount; i++)
             {
                 RectTransform particle = _particlesPool.Get(_emitter.position);
 
@@ -73,10 +86,13 @@ namespace Assets._Project.Develop.Runtime.UI.Wallet.Animation
                     .OnComplete(() =>
                     {
                         _particlesPool.Return(particle);
+                        _visualWalletService.Add(_currencyType, particleCost);
+                        particlesCompletedCount++;
 
+                        if (particlesCompletedCount >= particlesCount)
+                            _visualWalletService.Add(_currencyType, costRemain);
                     });
             }
-
         }
 
         public void Dispose()
