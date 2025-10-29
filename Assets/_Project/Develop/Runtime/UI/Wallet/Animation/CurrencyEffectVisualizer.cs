@@ -109,7 +109,7 @@ namespace Assets._Project.Develop.Runtime.UI.Wallet.Animation
         {
             float lastAngle = Mathf.Atan2(lastDirection.y, lastDirection.x) * Mathf.Rad2Deg;
 
-            float newAngle = lastAngle + Random.Range(150f, 210f);
+            float newAngle = lastAngle + Random.Range(120f, 270f);
 
             return new Vector2(Mathf.Cos(newAngle * Mathf.Deg2Rad), Mathf.Sin(newAngle * Mathf.Deg2Rad));
         }

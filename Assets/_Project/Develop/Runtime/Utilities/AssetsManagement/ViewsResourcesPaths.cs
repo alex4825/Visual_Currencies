@@ -9,6 +9,7 @@ namespace Assets._Project.Develop.Runtime.Utilities.AssetsManagement
         {
             {ViewIDs.CurrencyView, "UI/CurrencyView" },
             {ViewIDs.CurrencyButtonView, "UI/CurrencyButtonView" },
+            {ViewIDs.CurrencySliderView, "UI/CurrencySliderView" },
         };
 
         public static bool TryGetBy(string id, out string path)

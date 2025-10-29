@@ -4,5 +4,6 @@
     {
         public const string CurrencyView = nameof(CurrencyView);
         public const string CurrencyButtonView = nameof(CurrencyButtonView);
+        public const string CurrencySliderView = nameof(CurrencySliderView);
     }
 }

@@ -57,5 +57,12 @@ namespace Assets._Project.Develop.Runtime.UI.Core
 
             return new CurrencyButtonPresenter(view, _walletService, visualWalletService, _configsProviderService, currencyType, currencyView, _uIRoot.VFXLayer);
         }
+
+        public CurrencySliderPresenter CreateCurrencySliderPresenter(CurrencyTypes currencyType, Transform container)
+        {
+            CurrencySliderView view = _viewsFactory.Create<CurrencySliderView>(ViewIDs.CurrencySliderView, container);
+
+            return new CurrencySliderPresenter(view, currencyType);
+        }
     }
 }

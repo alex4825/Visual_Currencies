@@ -28,6 +28,7 @@ namespace Assets._Project.Develop.Runtime.UI.Menu
         {
             CreateWallet();
             CreateButtons();
+            CreateSliders();
 
             /*foreach (IPresenter childPresenter in _childPresenters)
                 childPresenter.Initialize();*/
@@ -62,5 +63,14 @@ namespace Assets._Project.Develop.Runtime.UI.Menu
             }
         }
 
+        private void CreateSliders()
+        {
+            foreach (CurrencyTypes type in Enum.GetValues(typeof(CurrencyTypes)))
+            {
+                CurrencySliderPresenter currencySliderPresenter = _presentersFactory.CreateCurrencySliderPresenter(type, _screenView.SlidersContainer);
+                currencySliderPresenter.Initialize();
+                _childPresenters.Add(currencySliderPresenter);
+            }
+        }
     }
 }
