@@ -1,6 +1,7 @@
 using Assets._Project.Develop.Runtime.Meta.Features.Wallet;
 using Assets._Project.Develop.Runtime.UI.Core;
 using R3;
+using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.UI.Menu
 {
@@ -10,11 +11,13 @@ namespace Assets._Project.Develop.Runtime.UI.Menu
         private const float InitialKoef = 1f;
 
         private CurrencySliderView _view;
+        private Color _color;
 
-        public CurrencySliderPresenter(CurrencySliderView view, CurrencyTypes currencyType)
+        public CurrencySliderPresenter(CurrencySliderView view, CurrencyTypes currencyType, Color color)
         {
             _view = view;
             CurrencyType = currencyType;
+            _color = color;
         }
 
         public CurrencyTypes CurrencyType { get; private set; }
@@ -25,6 +28,8 @@ namespace Assets._Project.Develop.Runtime.UI.Menu
             _view.ValueChanged += OnValueChanged;
 
             _view.SetMaxKoefValue(MaxKoef);
+            _view.SetColor(_color);
+
             TimeScaler = new(InitialKoef);
             OnValueChanged(InitialKoef);
         }

@@ -71,7 +71,7 @@ namespace Assets._Project.Develop.Runtime.UI.Core
         {
             CurrencySliderView view = _viewsFactory.Create<CurrencySliderView>(ViewIDs.CurrencySliderView, container);
 
-            return new CurrencySliderPresenter(view, currencyType);
+            return new CurrencySliderPresenter(view, currencyType, _configsProviderService.GetConfig<CurrencyButtonsConfig>().GetColorFor(currencyType));
         }
     }
 }

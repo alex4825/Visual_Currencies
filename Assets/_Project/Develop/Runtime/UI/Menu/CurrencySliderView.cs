@@ -16,6 +16,13 @@ namespace Assets._Project.Develop.Runtime.UI.Menu
 
         public void SetKoefText(float value) => _koefText.text = value.ToString("0.0") + "x";
         public void SetMaxKoefValue(float value) => _slider.maxValue = value;
+        public void SetColor(Color color)
+        {
+            Image[] childImages = GetComponentsInChildren<Image>();
+
+            foreach (Image childImage in childImages) 
+                childImage.color = color;
+        }
 
         private void Awake()
         {
