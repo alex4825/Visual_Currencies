@@ -2,6 +2,7 @@
 using R3;
 using System.Collections.Generic;
 using System.Linq;
+using VContainer;
 
 namespace Assets._Project.Develop.Runtime.Meta.Features.Wallet
 {
@@ -9,10 +10,19 @@ namespace Assets._Project.Develop.Runtime.Meta.Features.Wallet
     {
         private readonly Dictionary<CurrencyTypes, ReactiveProperty<int>> _currencies = new();
 
+        [Inject]
         public WalletService()
         {
             foreach (CurrencyTypes type in Enum.GetValues(typeof(CurrencyTypes)))
                 _currencies[type] = new ReactiveProperty<int>();
+        }
+
+        public WalletService(WalletService originalWalletService)
+        {
+            foreach (var pair in originalWalletService._currencies)
+            {
+                _currencies.Add(pair.Key, new ReactiveProperty<int>(pair.Value.Value));
+            }
         }
 
         public List<CurrencyTypes> AvailableCurrencies => _currencies.Keys.ToList();

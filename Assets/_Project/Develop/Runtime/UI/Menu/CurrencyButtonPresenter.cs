@@ -6,17 +6,20 @@ using Assets._Project.Develop.Runtime.UI.Wallet.Animation;
 using Assets._Project.Develop.Runtime.Utilities.ConfigsManagement;
 using Coffee.UIExtensions;
 using R3;
+using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.UI.Menu
 {
     public class CurrencyButtonPresenter : IPresenter
     {
         private readonly CurrencyButtonView _view;
-        private readonly WalletService _walletService;
+        private readonly WalletService _originalWalletService;
+        private readonly WalletService _visualWalletService;
         private CurrencyTypes _currencyType;
-        private readonly CurrencyPresenter _currencyPresenter;
+        private Transform _currencyView;
+        private Transform _vfxLayer;
 
-        private ReactiveProperty<float> _timeScaler = new(1);
+        private ReactiveProperty<float> _timeScale = new(1);
 
         private CurrencyRandomizer _currencyRandomizer;
         private CurrencyButtonsConfig _buttonsConfig;
@@ -25,20 +28,29 @@ namespace Assets._Project.Develop.Runtime.UI.Menu
 
         public CurrencyButtonPresenter(
             CurrencyButtonView view,
-            WalletService walletService,
+            WalletService originalWalletService,
+            WalletService visualWalletService,
             ConfigsProviderService configsProviderService,
             CurrencyTypes currencyType,
-            CurrencyPresenter currencyPresenter)
+            Transform currencyView,
+            Transform vfxLayer)
         {
             _view = view;
-            _walletService = walletService;
+            _originalWalletService = originalWalletService;
+            _visualWalletService = visualWalletService;
             _currencyType = currencyType;
-            _currencyPresenter = currencyPresenter;
+            _currencyView = currencyView;
+            _vfxLayer = vfxLayer;
 
             _currencyRandomizer = new(configsProviderService.GetConfig<CurrencyRangeConfig>());
             _buttonsConfig = configsProviderService.GetConfig<CurrencyButtonsConfig>();
 
-            _currencyEffectVisualizer = _view.GetComponent<CurrencyEffectVisualizer>();
+            _currencyEffectVisualizer = new(
+                _buttonsConfig.GetEffectFor(_currencyType),
+                _timeScale, 
+                _view.transform, 
+                _currencyView.GetComponentInChildren<ParticleAttractor>().transform,
+                _vfxLayer);
         }
 
         public void Initialize()
@@ -49,19 +61,20 @@ namespace Assets._Project.Develop.Runtime.UI.Menu
 
             _view.Clicked += OnButtonClicked;
 
-            _currencyEffectVisualizer.Link(_currencyPresenter.View.GetComponentInChildren<UIParticleAttractor>(), _timeScaler);
+            //_currencyEffectVisualizer.Link(_currencyPresenter.View.GetComponentInChildren<UIParticleAttractor>(), _timeScaler);
         }
 
         public void Dispose()
         {
             _view.Clicked -= OnButtonClicked;
+            _currencyEffectVisualizer?.Dispose();
         }
 
         private void OnButtonClicked()
         {
             int currencyCount = _currencyRandomizer.GetFor(_currencyType);
 
-            _walletService.Add(_currencyType, currencyCount);
+            _originalWalletService.Add(_currencyType, currencyCount);
 
             _currencyEffectVisualizer.ShowEffect(currencyCount);
         }

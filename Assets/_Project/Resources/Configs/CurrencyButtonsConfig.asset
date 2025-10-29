@@ -19,13 +19,16 @@ MonoBehaviour:
         Name: Gold
         Sprite: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
         Color: {r: 1, g: 0.8709866, b: 0, a: 1}
+        CurrencyEffectConfig: {fileID: 11400000, guid: a74ec78da97c8a246ac89e5f0b39825c, type: 2}
     - Key: 1
       Value:
         Name: Diamond
         Sprite: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
         Color: {r: 0, g: 0.7790189, b: 1, a: 1}
+        CurrencyEffectConfig: {fileID: 11400000, guid: d2652193670ed6140abd945ce25ffcd6, type: 2}
     - Key: 2
       Value:
         Name: Energy
         Sprite: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
         Color: {r: 0.8867924, g: 0.1991099, b: 0.7420469, a: 1}
+        CurrencyEffectConfig: {fileID: 11400000, guid: 19f6af38c9125d048af7d02837f82607, type: 2}

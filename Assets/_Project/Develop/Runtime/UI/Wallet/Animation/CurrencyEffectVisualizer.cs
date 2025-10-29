@@ -1,84 +1,101 @@
-using Coffee.UIExtensions;
+using Assets._Project.Develop.Runtime.Configs;
+using Assets._Project.Develop.Runtime.Utilities.Other;
 using DG.Tweening;
 using R3;
 using System;
-using System.Collections;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Assets._Project.Develop.Runtime.UI.Wallet.Animation
 {
-    [RequireComponent(typeof(ParticleSystem))]
-    [RequireComponent(typeof(UIParticle))]
-    public class CurrencyEffectVisualizer : MonoBehaviour
+    public class CurrencyEffectVisualizer : IDisposable
     {
-        [SerializeField] private ParticleSystem _effect;
-        [SerializeField] private UIParticle _uiEffect;
-        [SerializeField] private CurrencyEffectTypes _effectType;
+        private const float RandomTimeDivider = 2;
 
-        [SerializeField] private float _timeToEmit = 1;
-        [SerializeField] private float _timeToAttract = 1;
-        [SerializeField] private Ease _attractionEaseType = Ease.Linear;
-
-        private UIParticleAttractor _attractor;
+        private CurrencyEffectConfig _effectConfig;
         private ReactiveProperty<float> _timeScale;
+        private Transform _emitter;
+        private Transform _attractor;
+        private Transform _vfxLayer;
 
-        private float _emitStartSpeed;
-        private float _attractSpeed;
-        private float _startLifetime;
+        private ObjectPool<RectTransform> _particlesPool;
 
         private IDisposable _timeScaleDisposable;
 
-        public void Link(UIParticleAttractor attractor, ReactiveProperty<float> timeScale)
+        public CurrencyEffectVisualizer(
+            CurrencyEffectConfig effectConfig,
+            ReactiveProperty<float> timeScale,
+            Transform emitter,
+            Transform attractor,
+            Transform vfxLayer)
         {
-            _attractor = attractor;
-            _attractor.AddParticleSystem(_effect);
-            _attractSpeed = _attractor.maxSpeed;
-            _emitStartSpeed = _effect.main.startSpeed.constantMax;
-            _startLifetime = _effect.main.startLifetime.constantMax;
-
+            _effectConfig = effectConfig;
             _timeScale = timeScale;
+            _emitter = emitter;
+            _attractor = attractor;
+            _vfxLayer = vfxLayer;
+
+            _particlesPool = new(_effectConfig.IconPrefab, _effectConfig.MaxParticles, _vfxLayer);
+
             _timeScaleDisposable = _timeScale.Subscribe(OnTimeScaleChanged);
             OnTimeScaleChanged(_timeScale.Value);
         }
 
         public void ShowEffect(int currencyCount)
         {
-            //_effect.Emit(currencyCount < _maxParticles ? currencyCount : _maxParticles);
+            Vector2 randomDirection = Vector2.right;
 
-            var emission = _effect.emission;
-            emission.rateOverTime = currencyCount;
-            _effect.Play();
+            for (int i = 0; i < currencyCount; i++)
+            {
+                RectTransform particle = _particlesPool.Get(_emitter.position);
 
-            //StartCoroutine(EffectRunProcess());
+                float randomDistance = Random.Range(_effectConfig.EmitMaxDistance / RandomTimeDivider, _effectConfig.EmitMaxDistance);
+
+                randomDirection = GetOppositeDirectionWithOffset(randomDirection).normalized;
+
+                float randomEmitTime = Random.Range(_effectConfig.TimeToEmit / RandomTimeDivider, _effectConfig.TimeToEmit);
+
+                Vector2 movePoint = particle.anchoredPosition + randomDirection * randomDistance;
+
+                particle
+                    .DOAnchorPos(movePoint, randomEmitTime)
+                    .SetEase(_effectConfig.EmitEaseType)
+                    .OnComplete(() => MoveToAttractor(particle));
+            }
+
+            void MoveToAttractor(RectTransform particle)
+            {
+                float randomAttractTime = Random.Range(_effectConfig.TimeToAttract / RandomTimeDivider, _effectConfig.TimeToAttract);
+
+                particle
+                    .DOMove(_attractor.position, randomAttractTime)
+                    .SetEase(_effectConfig.AttractEaseType)
+                    .OnComplete(() =>
+                    {
+                        _particlesPool.Return(particle);
+
+                    });
+            }
+
         }
 
-        private void OnDestroy()
+        public void Dispose()
         {
             _timeScaleDisposable?.Dispose();
         }
 
-        private IEnumerator EffectRunProcess()
-        {
-            yield return new WaitForSeconds(_timeToEmit);
-
-            _effect.Pause();
-
-            ParticleSystem.Particle[] particles = new ParticleSystem.Particle[_effect.main.maxParticles];
-            _effect.GetParticles(particles);
-
-            foreach (var particle in particles)
-            {
-                //_effect.Emit
-            }
-        }
-
         private void OnTimeScaleChanged(float newValue)
         {
-            var main = _effect.main;
-            main.startSpeed = _emitStartSpeed * newValue;
-            main.startLifetime = _startLifetime / newValue;
 
-            _attractor.maxSpeed = _attractSpeed * newValue;
+        }
+
+        private Vector2 GetOppositeDirectionWithOffset(Vector2 lastDirection)
+        {
+            float lastAngle = Mathf.Atan2(lastDirection.y, lastDirection.x) * Mathf.Rad2Deg;
+
+            float newAngle = lastAngle + Random.Range(150f, 210f);
+
+            return new Vector2(Mathf.Cos(newAngle * Mathf.Deg2Rad), Mathf.Sin(newAngle * Mathf.Deg2Rad));
         }
     }
 }
